@@ -1,0 +1,16 @@
+{
+  "inventory": {
+    "kind_bars": {
+      "name": "Kind Bars",
+      "description": "A healthy candy bar alternative.",
+      "votes": 0,
+      "flavors": {
+        "seaSaltCaramel": {
+          "name": "Sea Salt Caramel",
+          "favorites": 0,
+          "description": "The best flavor."
+        }
+      }
+    }
+  }
+}
