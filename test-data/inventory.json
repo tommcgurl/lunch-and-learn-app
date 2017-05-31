@@ -14,7 +14,7 @@
     },
     "mean_bars": {
       "name": "Mean Bars",
-      "description": "A healthy candy bar alternative.",
+      "description": "A shitty candy bar alternative and personality.",
       "votes": 0,
       "flavors": {
         "seaSaltCaramel": {
@@ -23,7 +23,18 @@
           "description": "The best flavor."
         }
       }
+    },
+    "lame_bars": {
+      "name": "Natural Valley crunchy sugar shit",
+      "description": "Sugar with some oats",
+      "votes": 0,
+      "flavors": {
+        "seaSaltCaramel": {
+          "name": "Sugarloaf",
+          "favorites": 0,
+          "description": "The sugar flavor."
+        }
+      }
     }
-
   }
 }

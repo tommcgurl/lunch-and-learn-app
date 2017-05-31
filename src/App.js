@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import fetch from 'isomorphic-fetch';
 import logo from './logo.svg';
+import InventoryList from './InventoryList/InventoryList'
 import './App.css';
 
 class App extends Component {
@@ -8,7 +9,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inventory: {}
+      fetching: true,
+      inventory: {},
     };
   }
 
@@ -20,7 +22,8 @@ class App extends Component {
       .then(responseJson => {
         console.log(responseJson);
         this.setState({
-          inventory: responseJson.inventory
+          fetching: false,
+          inventory: responseJson.inventory,
         });
       })
       .catch(err => {
@@ -29,25 +32,14 @@ class App extends Component {
   }
 
   renderInventoryWhenReady() {
-    if (this.state.inventory.kind_bars) {
-      return (
-          <div className="inventory-container" >
-            <h3 className="item-name">
-              {this.state.inventory.kind_bars.name}
-            </h3>
-            <p className="item-description">
-              {this.state.inventory.kind_bars.description}
-            </p>
-            <p className="item-votes">
-              {this.state.inventory.kind_bars.votes}
-            </p>
-          </div>
-      );
-    } else {
+    if (this.state.fetching) {
       return (
         <p className="loading-indicator"> Loading ... </p>
       );
     }
+    return (
+      <InventoryList items={this.state.inventory} />
+    );
   }
 
   render() {
