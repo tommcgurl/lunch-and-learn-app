@@ -12,11 +12,19 @@ class App extends Component {
     this.state = {
       fetching: true,
       inventory: {},
+      selectedItem: '',
     };
   }
 
+  setSelectedItem = (itemId) => {
+    debugger;
+    this.setState({
+      selectedItem: itemId
+    });
+  }
+
   componentWillMount() {
-    fetch('http://localhost:4000/db')
+    fetch('http://localhost:3000/db')
       .then(response => {
         return response.json();
       })
@@ -39,7 +47,9 @@ class App extends Component {
       );
     }
     return (
-      <InventoryList items={this.state.inventory} />
+      <InventoryList
+        onClickItem={this.setSelectedItem}
+        items={this.state.inventory} />
     );
   }
 

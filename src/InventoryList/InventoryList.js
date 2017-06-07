@@ -5,6 +5,7 @@ class InventoryList extends Component {
 
   static propTypes = {
     items: PropTypes.object.isRequired,
+    onClickItem: PropTypes.func.isRequired,
   }
 
   renderItems() {
@@ -12,6 +13,7 @@ class InventoryList extends Component {
       const item = this.props.items[key];
       return (
           <div
+            onClick={this.props.onClickItem.bind(null, key)}
             key={key}
             className="inventory-container" >
             <h3 className="item-name">
