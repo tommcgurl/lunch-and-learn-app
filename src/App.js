@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+
 import fetch from 'isomorphic-fetch';
 import logo from './logo.svg';
 import InventoryList from './InventoryList/InventoryList';
@@ -9,15 +10,15 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    let selectedItem = props.match.params.itemId;
     this.state = {
       fetching: true,
       inventory: {},
-      selectedItem: '',
+      selectedItem: selectedItem,
     };
   }
 
   setSelectedItem = (itemId) => {
-    debugger;
     this.setState({
       selectedItem: itemId
     });
@@ -49,7 +50,9 @@ class App extends Component {
     return (
       <InventoryList
         onClickItem={this.setSelectedItem}
-        items={this.state.inventory} />
+        items={this.state.inventory}
+        selectedItem={this.state.selectedItem}
+      />
     );
   }
 

@@ -7,6 +7,7 @@
   margin: 5px 0;
   transition: 0.3s;
   cursor: pointer;
+  display: block;
 }
 
 .inventory-container:hover {
@@ -15,4 +16,9 @@
 
 .inventory-container:active {
   background-color: #BA1E71;
+}
+
+.inventory-container.selected {
+  background-color: limegreen;
+  color: white;
 }
