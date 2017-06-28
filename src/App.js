@@ -25,6 +25,18 @@ class App extends Component {
     });
   }
 
+  handleUpvote = () => {
+    let itemToUpvote = this.state.inventory[this.state.selectedItem];
+    itemToUpvote.votes += 1;
+    let newInventory = {
+      ...this.state.inventory,
+      [this.state.selectedItem]: itemToUpvote,
+    };
+    this.setState({
+      inventory: newInventory
+    });
+  }
+
   componentWillMount() {
     fetch('http://localhost:3000/db')
       .then(response => {
@@ -75,8 +87,13 @@ class App extends Component {
           name={selectedItem.name}
           description={selectedItem.description}
           votes={selectedItem.votes}
+          onClickUpvote={this.handleUpvote}
         />
       );
+    } else {
+      return (
+        <div className="empty-item-detail"/>
+      )
     }
   }
 
