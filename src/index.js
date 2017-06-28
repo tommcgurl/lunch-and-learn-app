@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
   Route,
+  Redirect,
   Link
 } from 'react-router-dom';
 
@@ -13,7 +14,6 @@ ReactDOM.render(
   (
     <Router>
       <div>
-        <Route exact path="/" component={App}/>
         <Route path="/:itemId" component={App}/>
       </div>
     </Router>

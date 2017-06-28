@@ -9,6 +9,7 @@ import './App.css';
 class App extends Component {
 
   constructor(props) {
+    debugger;
     super(props);
     let selectedItem = props.match.params.itemId;
     this.state = {
@@ -41,6 +42,14 @@ class App extends Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.itemId !== nextProps.match.params.itemId) {
+      this.setState({
+        selectedItem: nextProps.match.params.itemId
+      });
+    }
+  }
+
   renderInventoryWhenReady() {
     if (this.state.fetching) {
       return (
@@ -56,6 +65,21 @@ class App extends Component {
     );
   }
 
+  renderItemDetailWhenSelected() {
+    console.log("Trying to render item")
+    if (this.state.selectedItem && this.state.inventory[this.state.selectedItem]) {
+      console.log("Rendering item now.")
+      const selectedItem = this.state.inventory[this.state.selectedItem]
+      return (
+        <ItemDetail
+          name={selectedItem.name}
+          description={selectedItem.description}
+          votes={selectedItem.votes}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -65,11 +89,7 @@ class App extends Component {
         </div>
         <div className="App-content-container">
           {this.renderInventoryWhenReady()}
-          <ItemDetail
-            name="This is a test."
-            description="The Most delicious snack."
-            votes={0}
-          />
+          {this.renderItemDetailWhenSelected()}
         </div>
       </div>
     );
