@@ -9,7 +9,6 @@ import './App.css';
 class App extends Component {
 
   constructor(props) {
-    debugger;
     super(props);
     let selectedItem = props.match.params.itemId;
     this.state = {
@@ -32,9 +31,32 @@ class App extends Component {
       ...this.state.inventory,
       [this.state.selectedItem]: itemToUpvote,
     };
-    this.setState({
-      inventory: newInventory
+    fetch('http://localhost:3000/inventory',{
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(newInventory),
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(responseJson => {
+      console.log(responseJson);
+      if (!Object.keys(responseJson).length) {
+        console.log('Failed to post to inventory');
+        return;
+      }
+      this.setState({
+        inventory: responseJson
+      });
+    })
+    .catch(err => {
+      console.error(err);
     });
+    // this.setState({
+    //   inventory: newInventory
+    // });
   }
 
   componentWillMount() {
