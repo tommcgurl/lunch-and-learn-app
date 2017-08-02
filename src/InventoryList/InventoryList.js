@@ -6,7 +6,6 @@ class InventoryList extends Component {
 
   static propTypes = {
     items: PropTypes.object.isRequired,
-    onClickItem: PropTypes.func.isRequired,
     selectedItem: PropTypes.string,
   }
 

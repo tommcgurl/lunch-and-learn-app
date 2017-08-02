@@ -1,27 +1,31 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router-dom';
 
 import fetch from 'isomorphic-fetch';
 import logo from './logo.svg';
 import InventoryList from './InventoryList/InventoryList';
 import ItemDetail from './ItemDetail/ItemDetail';
+import NewItemForm from './NewItemForm/NewItemForm';
+
 import './App.css';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    let selectedItem = props.match.params.itemId;
+    let selectedItem = ''
+    let addingItem = false;
+    if (props.match.params.itemId === 'add_item') {
+      addingItem = true;
+    } else {
+      selectedItem = props.match.params.itemId;
+    }
     this.state = {
       fetching: true,
       inventory: {},
       selectedItem: selectedItem,
+      addingItem: addingItem,
     };
-  }
-
-  setSelectedItem = (itemId) => {
-    this.setState({
-      selectedItem: itemId
-    });
   }
 
   handleUpvote = () => {
@@ -78,9 +82,16 @@ class App extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.itemId !== nextProps.match.params.itemId) {
-      this.setState({
-        selectedItem: nextProps.match.params.itemId
-      });
+      if (nextProps.match.params.itemId === 'add_item') {
+        this.setState({
+          addingItem: true,
+        });
+      } else {
+        this.setState({
+          selectedItem: nextProps.match.params.itemId,
+          addingItem: false,
+        });
+      }
     }
   }
 
@@ -92,11 +103,20 @@ class App extends Component {
     }
     return (
       <InventoryList
-        onClickItem={this.setSelectedItem}
         items={this.state.inventory}
         selectedItem={this.state.selectedItem}
       />
     );
+  }
+
+  renderContentArea() {
+    if (this.state.addingItem) {
+      return (
+        <NewItemForm />
+      );
+    } else {
+      return this.renderItemDetailWhenSelected();
+    }
   }
 
   renderItemDetailWhenSelected() {
@@ -119,6 +139,16 @@ class App extends Component {
     }
   }
 
+  renderAddItemButton() {
+    return (
+      <Link
+        to="/add_item"
+        className="add-item-button">
+        Add Item
+      </Link>
+    );
+  }
+
   render() {
     return (
       <div className="App">
@@ -128,7 +158,8 @@ class App extends Component {
         </div>
         <div className="App-content-container">
           {this.renderInventoryWhenReady()}
-          {this.renderItemDetailWhenSelected()}
+          {this.renderContentArea()}
+          {this.renderAddItemButton()}
         </div>
       </div>
     );

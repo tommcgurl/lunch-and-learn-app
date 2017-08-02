@@ -34,3 +34,32 @@
 .empty-item-detail {
   flex: 1;
 }
+
+.add-item-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 70px;
+  padding: 10px;
+  background-color: #008800;
+  color: white;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+  border-radius: 50%;
+  position: fixed;
+  bottom: 20%;
+  right: 20%;
+  transition: 0.25s;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.add-item-button:hover {
+  background-color: #005500;
+  height: 72px;
+  width: 72px;
+}
+
+.add-item-button:active {
+  background-color: #004400;
+}

@@ -17,7 +17,7 @@
       "id": 2,
       "name": "Mean Bars",
       "description": "A shitty candy bar alternative and personality.",
-      "votes": 0,
+      "votes": 3,
       "flavors": {
         "seaSaltCaramel": {
           "name": "Sea Salt Caramel",
@@ -30,7 +30,7 @@
       "id": 3,
       "name": "Natural Valley crunchy sugar shit",
       "description": "Sugar with some oats",
-      "votes": 0,
+      "votes": 5,
       "flavors": {
         "seaSaltCaramel": {
           "name": "Sugarloaf",
