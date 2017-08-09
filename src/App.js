@@ -28,14 +28,8 @@ class App extends Component {
     };
   }
 
-  handleUpvote = () => {
-    let itemToUpvote = this.state.inventory[this.state.selectedItem];
-    itemToUpvote.votes += 1;
-    let newInventory = {
-      ...this.state.inventory,
-      [this.state.selectedItem]: itemToUpvote,
-    };
-    fetch('http://localhost:3000/inventory',{
+  updateInventory(newInventory) {
+    return fetch('http://localhost:3000/inventory',{
       headers: {
         'Content-Type': 'application/json'
       },
@@ -45,19 +39,50 @@ class App extends Component {
     .then(response => {
       return response.json();
     })
-    .then(responseJson => {
-      console.log(responseJson);
-      if (!Object.keys(responseJson).length) {
-        console.log('Failed to post to inventory');
-        return;
-      }
-      this.setState({
-        inventory: responseJson
+  }
+
+  submitNewItem = (newItem) => {
+    let newInventory = {
+      ...this.state.inventory,
+      [newItem.id]: newItem,
+    }
+    this.updateInventory(newInventory)
+      .then(responseJson => {
+        console.log(responseJson);
+        if (!Object.keys(responseJson).length) {
+          console.log('Failed to create new item');
+          return;
+        }
+        this.setState({
+          inventory: responseJson
+        });
+      })
+      .catch(err => {
+        console.error(err);
       });
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  }
+
+  handleUpvote = () => {
+    let itemToUpvote = this.state.inventory[this.state.selectedItem];
+    itemToUpvote.votes += 1;
+    let newInventory = {
+      ...this.state.inventory,
+      [this.state.selectedItem]: itemToUpvote,
+    };
+    this.updateInventory(newInventory)
+      .then(responseJson => {
+        console.log(responseJson);
+        if (!Object.keys(responseJson).length) {
+          console.log('Failed to upvote');
+          return;
+        }
+        this.setState({
+          inventory: responseJson
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
     // this.setState({
     //   inventory: newInventory
     // });
@@ -112,7 +137,7 @@ class App extends Component {
   renderContentArea() {
     if (this.state.addingItem) {
       return (
-        <NewItemForm />
+        <NewItemForm onSubmitNewItem={this.submitNewItem}/>
       );
     } else {
       return this.renderItemDetailWhenSelected();

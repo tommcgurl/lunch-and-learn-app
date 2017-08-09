@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Kind Bars",
       "description": "A healthy candy bar alternative.",
-      "votes": 9,
+      "votes": 12,
       "flavors": {
         "seaSaltCaramel": {
           "name": "Sea Salt Caramel",
@@ -38,6 +38,13 @@
           "description": "The sugar flavor."
         }
       }
+    },
+    "pizza_pringles": {
+      "id": "pizza_pringles",
+      "name": "Pizza Pringles",
+      "description": "Once you pop the fun don't stop!",
+      "votes": 4,
+      "flavors": {}
     }
   }
 }
