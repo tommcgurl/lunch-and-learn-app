@@ -38,19 +38,60 @@ class NewItemForm extends Component {
       }
     }
     */
+    const itemId = name.toLowerCase().replace(/\s/g, '_');
     this.props.onSubmitNewItem({
-      id: name.toLowerCase().replace(/\s/g, '_'),
+      id: itemId,
       name: name,
       description: description,
       votes: 0,
-      flavors: {},
+      flavors: this.state.flavors,
     });
+    window.location.pathname = '/' + itemId;
+  }
+  handleFlavorSubmit = () => {
+    const flavorName = this.refs.flavorNameInput.value;
+    const flavorDescription = this.refs.flavorDescriptionInput.value;
+    const flavorId = flavorName.toLowerCase().replace(/\s/g, '_');
+    const newFlavor = {
+      name: flavorName,
+      description: flavorDescription,
+      favorites: 0,
+    }
+    this.setState({
+      flavors: {
+        ...this.state.flavors,
+        [flavorId]: newFlavor,
+      },
+      addingFlavor: false,
+    });
+  }
+
+  renderAddedFlavorsIfNeeded() {
+    // No need to render if object is empty.
+    if (!this.state.flavors) {
+      return;
+    }
+
+    const flavorItems = Object.keys(this.state.flavors).map(flavorId => {
+      const flavor = this.state.flavors[flavorId];
+      return (
+        <li className="added-flavor-item">
+          <p className="added-flavor-name">{flavor.name}</p>
+          <p className="added-flavor-description">{flavor.description}</p>
+        </li>
+      );
+    });
+    return (
+      <ul className="added-flavors-container">
+        {flavorItems}
+      </ul>
+    );
   }
 
   renderFlavorFormIfNeeded() {
     if (this.state.addingFlavor) {
       return (
-        <div className="flavor-form">
+        <div className="flavor-form-container">
           <input
             type="text"
             placeholder="Enter a flavor name"
@@ -61,6 +102,11 @@ class NewItemForm extends Component {
             placeholder="Enter a flavor description"
             ref="flavorDescriptionInput"
           />
+          <button
+            onClick={this.handleFlavorSubmit}
+            className="add-flavor-submit-button">
+            Submit
+          </button>
         </div>
       )
     }
@@ -79,6 +125,7 @@ class NewItemForm extends Component {
           placeholder="Enter a description"
           ref="descriptionInput"
         />
+        {this.renderAddedFlavorsIfNeeded()}
         {this.renderFlavorFormIfNeeded()}
         <button onClick={this.onClickAddFlavor}>Add a Flavor</button>
         <button onClick={this.onClickSubmit}>

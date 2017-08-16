@@ -45,6 +45,49 @@
       "description": "Once you pop the fun don't stop!",
       "votes": 4,
       "flavors": {}
+    },
+    "young_thug_oreos": {
+      "id": "young_thug_oreos",
+      "name": "Young Thug Oreos",
+      "description": "The most thug oreos.",
+      "votes": 0,
+      "flavors": {}
+    },
+    "la_croix": {
+      "id": "la_croix",
+      "name": "La Croix",
+      "description": "Sparkling Water but fancy.",
+      "votes": 0,
+      "flavors": {
+        "pizza_sauce": {
+          "name": "Pizza Sauce",
+          "description": "fuckin gross TBH",
+          "favorites": 0
+        },
+        "ham": {
+          "name": "Ham",
+          "description": "Pairs well with garbage.",
+          "favorites": 0
+        },
+        "scallop": {
+          "name": "Scallop",
+          "description": "gross",
+          "favorites": 0
+        }
+      }
+    },
+    "t": {
+      "id": "t",
+      "name": "t",
+      "description": "d",
+      "votes": 0,
+      "flavors": {
+        "flavor_yo": {
+          "name": "Flavor Yo",
+          "description": "flav dec",
+          "favorites": 0
+        }
+      }
     }
   }
 }
