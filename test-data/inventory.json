@@ -17,7 +17,7 @@
       "id": 2,
       "name": "Mean Bars",
       "description": "A shitty candy bar alternative and personality.",
-      "votes": 3,
+      "votes": 4,
       "flavors": {
         "seaSaltCaramel": {
           "name": "Sea Salt Caramel",
@@ -76,15 +76,20 @@
         }
       }
     },
-    "t": {
-      "id": "t",
-      "name": "t",
-      "description": "d",
+    "pop_chips": {
+      "id": "pop_chips",
+      "name": "Pop Chips",
+      "description": "Not fried but popped",
       "votes": 0,
       "flavors": {
-        "flavor_yo": {
-          "name": "Flavor Yo",
-          "description": "flav dec",
+        "sour_cream_&_onion": {
+          "name": "Sour Cream & Onion",
+          "description": "Delicious",
+          "favorites": 0
+        },
+        "plain": {
+          "name": "Plain",
+          "description": "boring",
           "favorites": 0
         }
       }

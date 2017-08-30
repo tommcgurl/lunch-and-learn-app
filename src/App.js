@@ -54,7 +54,8 @@ class App extends Component {
           return;
         }
         this.setState({
-          inventory: responseJson
+          inventory: responseJson,
+          addingItem: false,
         });
       })
       .catch(err => {
@@ -177,10 +178,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Inventory</h2>
-        </div>
         <div className="App-content-container">
           {this.renderInventoryWhenReady()}
           {this.renderContentArea()}

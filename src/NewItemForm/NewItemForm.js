@@ -46,7 +46,6 @@ class NewItemForm extends Component {
       votes: 0,
       flavors: this.state.flavors,
     });
-    window.location.pathname = '/' + itemId;
   }
   handleFlavorSubmit = () => {
     const flavorName = this.refs.flavorNameInput.value;
