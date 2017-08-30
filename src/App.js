@@ -41,6 +41,26 @@ class App extends Component {
     })
   }
 
+  removeItem = (itemId) => {
+    let newInventory = this.state.inventory;
+    // Remove the item
+    delete newInventory[itemId];
+    this.updateInventory(newInventory)
+      .then(responseJson => {
+        console.log(responseJson);
+        if (!Object.keys(responseJson).length) {
+          console.log('Failed to remove item: ' + itemId);
+          return;
+        }
+        this.setState({
+          inventory: responseJson,
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
   submitNewItem = (newItem) => {
     let newInventory = {
       ...this.state.inventory,
@@ -131,6 +151,7 @@ class App extends Component {
       <InventoryList
         items={this.state.inventory}
         selectedItem={this.state.selectedItem}
+        onClickRemove={this.removeItem}
       />
     );
   }

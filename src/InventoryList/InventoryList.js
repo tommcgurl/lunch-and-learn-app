@@ -7,6 +7,13 @@ class InventoryList extends Component {
   static propTypes = {
     items: PropTypes.object.isRequired,
     selectedItem: PropTypes.string,
+    onClickRemove: PropTypes.func,
+  }
+
+  handleRemove = (itemId, e) => {
+    e.preventDefault();
+    e.stopPropagation()
+    this.props.onClickRemove(itemId);
   }
 
   renderItems() {
@@ -31,6 +38,11 @@ class InventoryList extends Component {
             <p className="item-votes">
               {item.votes}
             </p>
+            <div
+              className="item-remove"
+              onClick={this.handleRemove.bind(null, key)}>
+              ×
+            </div>
           </Link>
       );
     });
