@@ -110,8 +110,9 @@ class App extends Component {
   }
 
   componentWillMount() {
-    fetch('http://localhost:3000/db')
+    fetch('http://localhost:1337/item/getMap')
       .then(response => {
+        debugger;
         return response.json();
       })
       .then(responseJson => {

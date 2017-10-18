@@ -5,8 +5,16 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+const getInventoryMap = function (items){
+	return items.reduce((mapSoFar, nextItem) => {
+		const itemId = nextItem.name.replace(/\s/g, '_').toLowerCase();
+		mapSoFar[itemId] = nextItem;
+		return mapSoFar;
+	}, {});
+};
+
 module.exports = {
-	getAll: function (req, res) {
+	getMap: function (req, res) {
 		Item.find({}, (err, data) =>{
 			if (err) {
 				res.send(500, {
@@ -14,8 +22,7 @@ module.exports = {
 				});
 				return;
 			}
-
-			res.json(data);
+			res.json(getInventoryMap(data));
 		});
   },
 	withName: function(req, res) {
