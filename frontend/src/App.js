@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 
-import fetch from 'isomorphic-fetch';
+// import fetch from 'isomorphic-fetch';
 import logo from './logo.svg';
 import InventoryList from './InventoryList/InventoryList';
 import ItemDetail from './ItemDetail/ItemDetail';
@@ -28,15 +28,16 @@ class App extends Component {
     };
   }
 
-  updateInventory(newInventory) {
-    return fetch('http://localhost:3000/inventory',{
+  updateInventory(itemToUpvote) {
+    return fetch(`http://localhost:1337/item/${itemToUpvote.id}`,{
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify(newInventory),
+      body: JSON.stringify(itemToUpvote),
     })
     .then(response => {
+      debugger;
       return response.json();
     })
   }
@@ -86,11 +87,7 @@ class App extends Component {
   handleUpvote = () => {
     let itemToUpvote = this.state.inventory[this.state.selectedItem];
     itemToUpvote.votes += 1;
-    let newInventory = {
-      ...this.state.inventory,
-      [this.state.selectedItem]: itemToUpvote,
-    };
-    this.updateInventory(newInventory)
+    this.updateInventory(itemToUpvote)
       .then(responseJson => {
         console.log(responseJson);
         if (!Object.keys(responseJson).length) {
@@ -110,16 +107,17 @@ class App extends Component {
   }
 
   componentWillMount() {
-    fetch('http://localhost:1337/item/getMap')
+    fetch('http://localhost:1337/item/sortedMap')
       .then(response => {
         debugger;
         return response.json();
       })
       .then(responseJson => {
+        debugger;
         console.log(responseJson);
         this.setState({
           fetching: false,
-          inventory: responseJson.inventory,
+          inventory: responseJson,
         });
       })
       .catch(err => {
