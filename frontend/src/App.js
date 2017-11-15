@@ -9,6 +9,10 @@ import NewItemForm from './NewItemForm/NewItemForm';
 
 import './App.css';
 
+function getItemId(item) {
+  return item.name.replace(/\s/g, '_').toLowerCase();
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -33,7 +37,7 @@ class App extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(itemToUpdate),
     })
     .then(response => {
@@ -42,18 +46,19 @@ class App extends Component {
   }
 
   removeItem = (itemId) => {
-    let newInventory = this.state.inventory;
-    // Remove the item
-    delete newInventory[itemId];
-    this.updateInventory(newInventory)
+    const itemToRemove = this.state.inventory[itemId];
+    fetch(`http://localhost:1337/item/${itemToRemove.id}`,{
+      method: 'DELETE',
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(responseJson => {
         console.log(responseJson);
-        if (!Object.keys(responseJson).length) {
-          console.log('Failed to remove item: ' + itemId);
-          return;
-        }
+        const newInventory = this.state.inventory;
+        delete newInventory[itemId];
         this.setState({
-          inventory: responseJson,
+          inventory: newInventory,
         });
       })
       .catch(err => {
@@ -62,20 +67,24 @@ class App extends Component {
   }
 
   submitNewItem = (newItem) => {
-    let newInventory = {
-      ...this.state.inventory,
-      [newItem.id]: newItem,
-    }
-    this.updateInventory(newInventory)
+    fetch(`http://localhost:1337/item`,{
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(newItem),
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(responseJson => {
         console.log(responseJson);
-        if (!Object.keys(responseJson).length) {
-          console.log('Failed to create new item');
-          return;
-        }
+        const item = responseJson;
+        const newInventory = this.state.inventory;
+        const itemId = getItemId(item);
+        newInventory[itemId] = item;
         this.setState({
-          inventory: responseJson,
-          addingItem: false,
+          inventory: newInventory,
         });
       })
       .catch(err => {
@@ -92,7 +101,7 @@ class App extends Component {
         const newInventory = {
           ...this.state.inventory,
         };
-        const itemId = responseJson.name.replace(/\s/g, '_').toLowerCase();
+        const itemId = getItemId(responseJson);
         newInventory[itemId] = responseJson;
         this.setState({
           inventory: newInventory
@@ -109,11 +118,9 @@ class App extends Component {
   componentWillMount() {
     fetch('http://localhost:1337/item/sortedMap')
       .then(response => {
-        debugger;
         return response.json();
       })
       .then(responseJson => {
-        debugger;
         console.log(responseJson);
         this.setState({
           fetching: false,
