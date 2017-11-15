@@ -28,16 +28,15 @@ class App extends Component {
     };
   }
 
-  updateInventory(itemToUpvote) {
-    return fetch(`http://localhost:1337/item/${itemToUpvote.id}`,{
+  updateItem(itemToUpdate) {
+    return fetch(`http://localhost:1337/item/${itemToUpdate.id}`,{
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify(itemToUpvote),
+      body: JSON.stringify(itemToUpdate),
     })
     .then(response => {
-      debugger;
       return response.json();
     })
   }
@@ -85,17 +84,18 @@ class App extends Component {
   }
 
   handleUpvote = () => {
-    let itemToUpvote = this.state.inventory[this.state.selectedItem];
-    itemToUpvote.votes += 1;
-    this.updateInventory(itemToUpvote)
+    let itemToUpdate = this.state.inventory[this.state.selectedItem];
+    itemToUpdate.votes += 1;
+    this.updateItem(itemToUpdate)
       .then(responseJson => {
         console.log(responseJson);
-        if (!Object.keys(responseJson).length) {
-          console.log('Failed to upvote');
-          return;
-        }
+        const newInventory = {
+          ...this.state.inventory,
+        };
+        const itemId = responseJson.name.replace(/\s/g, '_').toLowerCase();
+        newInventory[itemId] = responseJson;
         this.setState({
-          inventory: responseJson
+          inventory: newInventory
         });
       })
       .catch(err => {
