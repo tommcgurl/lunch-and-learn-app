@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
+import { API_ROOT } from './api';
 
 // import fetch from 'isomorphic-fetch';
 import logo from './logo.svg';
@@ -33,7 +34,7 @@ class App extends Component {
   }
 
   updateItem(itemToUpdate) {
-    return fetch(`http://localhost:1337/item/${itemToUpdate.id}`,{
+    return fetch(`${API_ROOT}/item/${itemToUpdate.id}`,{
       headers: {
         'Content-Type': 'application/json'
       },
@@ -47,7 +48,7 @@ class App extends Component {
 
   removeItem = (itemId) => {
     const itemToRemove = this.state.inventory[itemId];
-    fetch(`http://localhost:1337/item/${itemToRemove.id}`,{
+    fetch(`${API_ROOT}/item/${itemToRemove.id}`,{
       method: 'DELETE',
     })
       .then(response => {
@@ -67,7 +68,7 @@ class App extends Component {
   }
 
   submitNewItem = (newItem) => {
-    fetch(`http://localhost:1337/item`,{
+    fetch(`${API_ROOT}/item`,{
       headers: {
         'Content-Type': 'application/json'
       },
@@ -115,8 +116,8 @@ class App extends Component {
     // });
   }
 
-  componentWillMount() {
-    fetch('http://localhost:1337/item/sortedMap')
+  fetchInitialData = () => {
+    fetch(`${API_ROOT}/item/sortedMap`)
       .then(response => {
         return response.json();
       })
@@ -130,6 +131,11 @@ class App extends Component {
       .catch(err => {
         console.error(err);
       });
+  }
+
+  componentWillMount() {
+    this.fetchInitialData();
+    setInterval(this.fetchInitialData, 5000);
   }
 
   componentWillReceiveProps(nextProps) {
