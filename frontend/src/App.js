@@ -7,6 +7,21 @@ import logo from './logo.svg';
 import InventoryList from './InventoryList/InventoryList';
 import ItemDetail from './ItemDetail/ItemDetail';
 import NewItemForm from './NewItemForm/NewItemForm';
+import socketIOClient from 'socket.io-client';
+import sailsIOClient from 'sails.io.js';
+
+let io = sailsIOClient(socketIOClient);
+
+// Set some options:
+// (you have to specify the host and port of the Sails backend when using this library from Node.js)
+io.sails.url = API_ROOT;
+
+io.socket.get('/item/sortedMap',
+  (body, JWR) => {
+    debugger;
+    console.log(body)
+  }
+)
 
 import './App.css';
 
@@ -31,6 +46,7 @@ class App extends Component {
       selectedItem: selectedItem,
       addingItem: addingItem,
     };
+    this.socket = io.socket;
   }
 
   updateItem(itemToUpdate) {
@@ -117,25 +133,20 @@ class App extends Component {
   }
 
   fetchInitialData = () => {
-    fetch(`${API_ROOT}/item/sortedMap`)
-      .then(response => {
-        return response.json();
-      })
-      .then(responseJson => {
-        console.log(responseJson);
-        this.setState({
-          fetching: false,
-          inventory: responseJson,
-        });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    // this.socket.get('/item/sortedMap',
+    //   (body, JWR) => {
+    //     debugger;
+    //     this.setState({
+    //       fetching: false,
+    //       inventory: body,
+    //     });
+    //   }
+    // );
   }
 
   componentWillMount() {
     this.fetchInitialData();
-    setInterval(this.fetchInitialData, 5000);
+    // setInterval(this.fetchInitialData, 5000);
   }
 
   componentWillReceiveProps(nextProps) {

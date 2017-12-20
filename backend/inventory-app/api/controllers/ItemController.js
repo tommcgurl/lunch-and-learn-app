@@ -35,6 +35,7 @@ module.exports = {
 				});
 				return;
 			}
+			Item.message(getInventoryMap(data));
 			res.json(getInventoryMap(data));
 		});
 	},
