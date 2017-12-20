@@ -16,13 +16,6 @@ let io = sailsIOClient(socketIOClient);
 // (you have to specify the host and port of the Sails backend when using this library from Node.js)
 io.sails.url = API_ROOT;
 
-io.socket.get('/item/sortedMap',
-  (body, JWR) => {
-    debugger;
-    console.log(body)
-  }
-)
-
 import './App.css';
 
 function getItemId(item) {
@@ -71,7 +64,6 @@ class App extends Component {
         return response.json();
       })
       .then(responseJson => {
-        console.log(responseJson);
         const newInventory = this.state.inventory;
         delete newInventory[itemId];
         this.setState({
@@ -79,7 +71,6 @@ class App extends Component {
         });
       })
       .catch(err => {
-        console.error(err);
       });
   }
 
@@ -95,7 +86,6 @@ class App extends Component {
         return response.json();
       })
       .then(responseJson => {
-        console.log(responseJson);
         const item = responseJson;
         const newInventory = this.state.inventory;
         const itemId = getItemId(item);
@@ -114,7 +104,6 @@ class App extends Component {
     itemToUpdate.votes += 1;
     this.updateItem(itemToUpdate)
       .then(responseJson => {
-        console.log(responseJson);
         const newInventory = {
           ...this.state.inventory,
         };
@@ -133,18 +122,20 @@ class App extends Component {
   }
 
   fetchInitialData = () => {
-    // this.socket.get('/item/sortedMap',
-    //   (body, JWR) => {
-    //     debugger;
-    //     this.setState({
-    //       fetching: false,
-    //       inventory: body,
-    //     });
-    //   }
-    // );
+    io.socket.get('/item',
+      (body, JWR) => {
+        debugger;
+        this.setState({
+          fetching: false,
+          inventory: body,
+        });
+      }
+    );
   }
 
   componentWillMount() {
+    debugger;
+    io.socket.on('item', (event) => console.log(`SOCKET ON RESPONSE: ${JSON.stringify(event)}`))
     this.fetchInitialData();
     // setInterval(this.fetchInitialData, 5000);
   }
@@ -190,9 +181,7 @@ class App extends Component {
   }
 
   renderItemDetailWhenSelected() {
-    console.log("Trying to render item")
     if (this.state.selectedItem && this.state.inventory[this.state.selectedItem]) {
-      console.log("Rendering item now.")
       const selectedItem = this.state.inventory[this.state.selectedItem]
       return (
         <ItemDetail

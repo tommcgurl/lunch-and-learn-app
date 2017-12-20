@@ -1,1 +1,1 @@
-export const API_ROOT = 'https://dlgkxbtdcd.localtunnel.me';
+export const API_ROOT = 'http://localhost:1337';
