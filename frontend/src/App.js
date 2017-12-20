@@ -74,6 +74,15 @@ class App extends Component {
       });
   }
 
+  addItemToInventory = (itemToAdd) => {
+    const newInventory = this.state.inventory;
+    const itemId = getItemId(itemToAdd);
+    newInventory[itemId] = itemToAdd;
+    this.setState({
+      inventory: newInventory,
+    });
+  }
+
   submitNewItem = (newItem) => {
     fetch(`${API_ROOT}/item`,{
       headers: {
@@ -87,12 +96,7 @@ class App extends Component {
       })
       .then(responseJson => {
         const item = responseJson;
-        const newInventory = this.state.inventory;
-        const itemId = getItemId(item);
-        newInventory[itemId] = item;
-        this.setState({
-          inventory: newInventory,
-        });
+        this.addItemToInventory(item);
       })
       .catch(err => {
         console.error(err);
@@ -133,9 +137,21 @@ class App extends Component {
     );
   }
 
+  itemChangeHandler = (event) => {
+    console.log(`SOCKET ON RESPONSE: ${JSON.stringify(event)}`);
+    switch(event.verb) {
+      case 'created':
+        this.addItemToInventory(event.data);
+      case 'destroyed':
+        // this.removeItemFromInventory(event.previous);
+      default:
+        return
+    }
+  }
+
   componentWillMount() {
     debugger;
-    io.socket.on('item', (event) => console.log(`SOCKET ON RESPONSE: ${JSON.stringify(event)}`))
+    io.socket.on('item', this.itemChangeHandler)
     this.fetchInitialData();
     // setInterval(this.fetchInitialData, 5000);
   }
