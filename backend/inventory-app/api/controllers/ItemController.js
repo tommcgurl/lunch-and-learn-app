@@ -7,7 +7,7 @@
 
 const getInventoryMap = function (items){
 	return items.reduce((mapSoFar, nextItem) => {
-		const itemId = nextItem.name.replace(/\s/g, '_').toLowerCase();
+		const itemId = nextItem.id;
 		mapSoFar[itemId] = nextItem;
 		return mapSoFar;
 	}, {});

@@ -1,1 +1,1 @@
-export const API_ROOT = 'https://scbavzzwpl.localtunnel.me';
+export const API_ROOT = 'http://localhost:1337';

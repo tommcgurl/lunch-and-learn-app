@@ -18,10 +18,6 @@ io.sails.url = API_ROOT;
 
 import './App.css';
 
-function getItemId(item) {
-  return item.name.replace(/\s/g, '_').toLowerCase();
-}
-
 class App extends Component {
 
   constructor(props) {
@@ -76,8 +72,7 @@ class App extends Component {
 
   addItemToInventory = (itemToAdd) => {
     const newInventory = this.state.inventory;
-    const itemId = getItemId(itemToAdd);
-    newInventory[itemId] = itemToAdd;
+    newInventory[itemToAdd.id] = itemToAdd;
     this.setState({
       inventory: newInventory,
     });
@@ -111,8 +106,7 @@ class App extends Component {
         const newInventory = {
           ...this.state.inventory,
         };
-        const itemId = getItemId(responseJson);
-        newInventory[itemId] = responseJson;
+        newInventory[itemToUpdate.id] = responseJson;
         this.setState({
           inventory: newInventory
         });
@@ -120,21 +114,15 @@ class App extends Component {
       .catch(err => {
         console.error(err);
       });
-    // this.setState({
-    //   inventory: newInventory
-    // });
   }
 
   fetchInitialData = () => {
-    io.socket.get('/item',
-      (body, JWR) => {
-        debugger;
-        this.setState({
-          fetching: false,
-          inventory: body,
-        });
-      }
-    );
+    io.socket.get('/item/sortedMap', (respsoneData) => {
+      this.setState({
+        fetching: false,
+        inventory: respsoneData,
+      });
+    })
   }
 
   itemChangeHandler = (event) => {
@@ -150,7 +138,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    debugger;
+    io.socket.get('/item', () => console.log('Connected to item'))
     io.socket.on('item', this.itemChangeHandler)
     this.fetchInitialData();
     // setInterval(this.fetchInitialData, 5000);
