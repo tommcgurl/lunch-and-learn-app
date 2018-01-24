@@ -78,6 +78,14 @@ class App extends Component {
     });
   }
 
+  removeItemFromInventory = (itemToRemove) => {
+    const newInventory = this.state.inventory;
+    delete newInventory[itemToRemove.id];
+    this.setState({
+      inventory: newInventory,
+    });
+  }
+
   submitNewItem = (newItem) => {
     fetch(`${API_ROOT}/item`,{
       headers: {
@@ -131,7 +139,10 @@ class App extends Component {
       case 'created':
         this.addItemToInventory(event.data);
       case 'destroyed':
-        // this.removeItemFromInventory(event.previous);
+        this.removeItemFromInventory(event.previous);
+      case 'updated':
+        // We can just use our add function
+        this.addItemToInventory(event.data);
       default:
         return
     }
