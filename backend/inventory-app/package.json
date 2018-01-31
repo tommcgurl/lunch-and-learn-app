@@ -28,7 +28,7 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "nodemon ./app.js"
+    "start": "sails lift"
   },
   "main": "app.js",
   "repository": {
