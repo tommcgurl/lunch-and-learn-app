@@ -1,1 +1,1 @@
-export const API_ROOT = 'http://localhost:1337';
+export const API_ROOT = 'https://sleepy-cove-69394.herokuapp.com';

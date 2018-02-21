@@ -14,7 +14,7 @@ ReactDOM.render(
   (
     <Router>
       <div>
-        <Route path="/:itemId" component={App}/>
+        <Route path="/:itemId?" component={App}/>
       </div>
     </Router>
   ),
