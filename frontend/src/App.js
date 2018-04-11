@@ -16,8 +16,6 @@ let io = sailsIOClient(socketIOClient);
 // (you have to specify the host and port of the Sails backend when using this library from Node.js)
 // Test
 io.sails.url = API_ROOT;
-const test = 'hi';
-console.log('hi');
 
 import './App.css';
 

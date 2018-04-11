@@ -15,8 +15,10 @@
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run copy-built-js && npm run copy-built-css",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "copy-built-js": "cp build/static/js/*.js ../backend/inventory-app/assets/js/",
+    "copy-built-css": "cp build/static/css/*.css ../backend/inventory-app/assets/styles/"
   }
 }
