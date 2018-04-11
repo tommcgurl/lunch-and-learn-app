@@ -10,6 +10,8 @@ import NewItemForm from './NewItemForm/NewItemForm';
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
 
+const version = 1;
+console.log(version);
 let io = sailsIOClient(socketIOClient);
 
 // Set some options:
