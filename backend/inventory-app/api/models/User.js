@@ -10,40 +10,39 @@ module.exports = {
 
   attributes: {
     email: {
-        type: 'email',
-        required: true,
-        unique: true
-      },
-      username: {
-        type: 'string',
-        required: true,
-        unique: true
-      },
-      password: {
-        type: 'string',
-        required: true
-      }
+      type: 'email',
+      required: true,
+      unique: true
     },
-    customToJSON: function() {
-       return _.omit(this, ['password'])
+    username: {
+      type: 'string',
+      required: true,
+      unique: true
     },
-    beforeCreate: function(user, cb){
-      bcrypt.genSalt(10, function(err, salt){
-        bcrypt.hash(user.password, salt, null, function(err, hash){
-          if(err) return cb(err);
-          user.password = hash;
-          return cb();
-        });
+    password: {
+      type: 'string',
+      required: true
+    }
+  },
+  customToJSON: function() {
+     return _.omit(this, ['password'])
+  },
+  beforeCreate: function(user, cb){
+    bcrypt.genSalt(10, function(err, salt){
+      bcrypt.hash(user.password, salt, null, function(err, hash){
+        if(err) return cb(err);
+        user.password = hash;
+        return cb();
       });
-    },
-    beforeUpdate: function(user, cb){
-      bcrypt.genSalt(10, function(err, salt){
-        bcrypt.hash(user.password, salt, null, function(err, hash){
-          if(err) return cb(err);
-          user.password = hash;
-          return cb();
-        });
+    });
+  },
+  beforeUpdate: function(user, cb){
+    bcrypt.genSalt(10, function(err, salt){
+      bcrypt.hash(user.password, salt, null, function(err, hash){
+        if(err) return cb(err);
+        user.password = hash;
+        return cb();
       });
-    },
+    });
   }
 };
