@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing items
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+const passport = require('passport');
 const getInventoryMap = function (items){
 	return items.reduce((mapSoFar, nextItem) => {
 		const itemId = nextItem.id;
@@ -26,6 +26,17 @@ module.exports = {
 		});
   },
 	sortedMap: function(req, res) {
+		passport.authenticate('local', function(err, user, info){
+      if((err) || (!user)) {
+        return res.send({
+          message: info.message,
+          user
+        });
+      } else {
+				console.log('authenticated')
+				console.log(user)
+			}
+		})
 		const query = Item.find()
 		query.sort('name ASC')
 		query.exec((err, data) => {
