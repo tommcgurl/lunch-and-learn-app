@@ -40,6 +40,8 @@ module.exports.routes = {
     view: 'login'
   },
 
+  'GET /logout': 'AuthController.logout',
+
   'POST /login': 'AuthController.login',
 
   '/register': {

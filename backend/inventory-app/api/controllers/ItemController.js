@@ -26,17 +26,11 @@ module.exports = {
 		});
   },
 	sortedMap: function(req, res) {
-		passport.authenticate('local', function(err, user, info){
-      if((err) || (!user)) {
-        return res.send({
-          message: info.message,
-          user
-        });
-      } else {
-				console.log('authenticated')
-				console.log(user)
-			}
-		})
+		console.log('Is user authenticated');
+		if (!req.isAuthenticated()) {
+			res.redirect('/login');
+			return;
+		}
 		const query = Item.find()
 		query.sort('name ASC')
 		query.exec((err, data) => {
