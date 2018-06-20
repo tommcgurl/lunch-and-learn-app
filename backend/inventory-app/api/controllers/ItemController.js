@@ -27,11 +27,14 @@ module.exports = {
   },
 	sortedMap: function(req, res) {
 		console.log('Is user authenticated');
+		let query;
 		if (!req.isAuthenticated()) {
-			res.redirect('/login');
-			return;
+			query = Item.find({
+				select: ['name', 'description']
+			})
+		} else {
+			query = Item.find()
 		}
-		const query = Item.find()
 		query.sort('name ASC')
 		query.exec((err, data) => {
 			if (err) {
