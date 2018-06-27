@@ -26,7 +26,6 @@ module.exports = {
 		});
   },
 	sortedMap: function(req, res) {
-		console.log('Is user authenticated');
 		let query;
 		if (!req.isAuthenticated()) {
 			query = Item.find({

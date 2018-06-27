@@ -7,7 +7,8 @@
 const passport = require('passport');
 module.exports = {
 	login: function(req, res) {
-		console.log('inside login function')
+		console.log(req.param)
+		let user_id = req.param ? req.param('user_id'): '';
     passport.authenticate('local', function(err, user, info){
       if((err) || (!user)) {
         return res.send({
@@ -15,11 +16,13 @@ module.exports = {
           user
         });
       }
-		console.log('user:');
-		console.log(user)
 		req.logIn(user, function(err) {
 	        if(err) {
 						res.send(err);
+					}
+					if (user_id) {
+						console.log('We have a user ID!!!', user_id);
+						return res.redirect(`/user/${user_id}`);
 					}
 	        return res.send({
 	          message: info.message,
@@ -30,6 +33,6 @@ module.exports = {
   },
 	logout: function(req, res) {
     req.logout();
-    res.redirect('/');
+    return res.redirect('/');
   }
 };
